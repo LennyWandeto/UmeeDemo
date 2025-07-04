@@ -1,5 +1,7 @@
+// lib/models/post_model.dart
+import 'user_model.dart';
 class Post {
-  final String id;
+  final int id;
   final String userId;
   final String content;
   final List<String> images;
@@ -7,6 +9,7 @@ class Post {
   final int likes;
   final int comments;
   final bool isLiked;
+  final User? user; // User information from join
 
   Post({
     required this.id,
@@ -17,10 +20,41 @@ class Post {
     this.likes = 0,
     this.comments = 0,
     this.isLiked = false,
+    this.user,
   });
 
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      userId: json['user_id'],
+      content: json['content'],
+      images: json['images'] != null 
+          ? List<String>.from(json['images']) 
+          : [],
+      createdAt: DateTime.parse(json['created_at']),
+      likes: json['likes'] ?? 0,
+      comments: json['comments'] ?? 0,
+      isLiked: json['is_liked'] ?? false,
+      user: json['users'] != null ? User.fromJson(json['users']) : null,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'content': content,
+      'images': images,
+      'created_at': createdAt.toIso8601String(),
+      'likes': likes,
+      'comments': comments,
+      'is_liked': isLiked,
+      'users': user?.toJson(),
+    };
+  }
+
   Post copyWith({
-    String? id,
+    int? id,
     String? userId,
     String? content,
     List<String>? images,
@@ -28,6 +62,7 @@ class Post {
     int? likes,
     int? comments,
     bool? isLiked,
+    User? user,
   }) {
     return Post(
       id: id ?? this.id,
@@ -38,22 +73,7 @@ class Post {
       likes: likes ?? this.likes,
       comments: comments ?? this.comments,
       isLiked: isLiked ?? this.isLiked,
+      user: user ?? this.user,
     );
   }
-}
-
-class Comment {
-  final String id;
-  final String postId;
-  final String userId;
-  final String content;
-  final DateTime createdAt;
-
-  Comment({
-    required this.id,
-    required this.postId,
-    required this.userId,
-    required this.content,
-    required this.createdAt,
-  });
 }

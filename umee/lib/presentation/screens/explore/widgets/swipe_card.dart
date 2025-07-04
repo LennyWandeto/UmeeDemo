@@ -145,7 +145,7 @@ class _SwipeCardState extends State<SwipeCard>
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Image.network(
-                          widget.user.profileImage,
+                          widget.user.profileImage ?? '',
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.cover,
@@ -270,7 +270,7 @@ class _SwipeCardState extends State<SwipeCard>
                                   ),
                                   const SizedBox(width: 4),
                                   Text(
-                                    widget.user.location,
+                                    widget.user.location ?? '',
                                     style: const TextStyle(
                                       color: Colors.white70,
                                       fontSize: 14,
@@ -280,7 +280,7 @@ class _SwipeCardState extends State<SwipeCard>
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                widget.user.bio,
+                                widget.user.bio ?? '',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
